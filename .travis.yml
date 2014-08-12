@@ -1,0 +1,12 @@
+language: ruby
+notifications:
+  email: false
+rvm:
+  - 2.0.0
+before_install:
+  - sudo apt-get update -qq
+bundler_args: --without development --jobs 7
+script:
+  - bundle exec rake
+services:
+  - redis-server

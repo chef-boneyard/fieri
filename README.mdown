@@ -1,0 +1,18 @@
+# Fieri
+
+[![Build Status](https://travis-ci.org/opscode/fieri.svg)](https://travis-ci.org/opscode/fieri)
+
+A complimentary service to Supermarket that provides insights into cookbook quality.
+
+## Requirements
+
+- Ruby 2.0.0
+- Redis 2.4+
+
+## Tests
+
+Run the entire test suite (minitest and rubocop) with:
+
+```
+$ bundle exec rake
+```

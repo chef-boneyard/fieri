@@ -1,0 +1,20 @@
+IfUnlessModifier:
+  Enabled: false
+Loop:
+  Enabled: false
+ClassLength:
+  Enabled: false
+LineLength:
+  Enabled: false
+MethodLength:
+  Enabled: false
+SignalException:
+  Enabled: false
+Documentation:
+  Enabled: false
+DotPosition:
+  Enabled: false
+RedundantBegin:
+  Enabled: false
+EachWithObject:
+  Enabled: false
