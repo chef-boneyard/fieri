@@ -1,6 +1,6 @@
 # Fieri
 
-[![Build Status](https://travis-ci.org/opscode/fieri.svg)](https://travis-ci.org/opscode/fieri)
+[![Build Status](https://travis-ci.org/opscode/fieri.svg?branch=master)](https://travis-ci.org/opscode/fieri)
 
 A complimentary service to Supermarket that provides insights into cookbook quality.
 
@@ -8,6 +8,23 @@ A complimentary service to Supermarket that provides insights into cookbook qual
 
 - Ruby 2.0.0
 - Redis 2.4+
+
+## Getting Started
+
+Ensure that you have the required dependencies then.
+
+1. `bundle install`
+1. `unicorn`
+1. `sidekiq -r PATH-TO-FIERI/lib/app.rb`
+
+## Configuring
+
+Some aspects of Fieri can be configured using [dotenv](https://github.com/bkeepers/dotenv)
+to change the default configuration edit the .env file in the root directory.
+
+- `FOODCRITIC_FAIL_TAGS`, a comma separated list of the Foodcritic tags that should trigger a failure.
+- `RESULTS_ENDPOINT`, the url where a cookbook artifacts results will be posted.
+- `AUTH_TOKEN`, the token used to permit results to be posted to the results endpoint.
 
 ## Tests
 
