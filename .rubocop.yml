@@ -1,3 +1,6 @@
+AllCops:
+  Exclude:
+    - tmp/**/*
 IfUnlessModifier:
   Enabled: false
 Loop:
@@ -18,3 +21,5 @@ RedundantBegin:
   Enabled: false
 EachWithObject:
   Enabled: false
+RedundantReturn:
+  AllowMultipleReturnValues: true
