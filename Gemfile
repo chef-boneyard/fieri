@@ -12,6 +12,8 @@ gem 'unicorn'
 group :test do
   gem 'webmock'
   gem 'rack-test'
+  gem 'minitest'
+  gem 'minitest-focus'
 end
 
 group :development, :test do

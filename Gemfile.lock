@@ -29,6 +29,9 @@ GEM
     json (1.8.1)
     kgio (2.9.2)
     mime-types (2.3)
+    minitest (5.4.0)
+    minitest-focus (1.1.0)
+      minitest (>= 4, < 6)
     multi_json (1.10.1)
     netrc (0.7.7)
     nokogiri (1.5.11)
@@ -94,6 +97,8 @@ DEPENDENCIES
   byebug
   dotenv
   foodcritic
+  minitest
+  minitest-focus
   rack-test
   rake
   rest-client
