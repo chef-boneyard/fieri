@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'sinatra-param'
+gem 'sinatra-contrib'
 gem 'sidekiq'
 gem 'rake'
 gem 'foodcritic'

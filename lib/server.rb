@@ -1,3 +1,4 @@
+require 'sinatra/reloader'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'json'
@@ -5,6 +6,10 @@ require 'sidekiq/api'
 
 class Server < Sinatra::Base
   helpers Sinatra::Param
+
+  configure :development do
+    register Sinatra::Reloader
+  end
 
   REACHABLE = 'REACHABLE'
   UNKNOWN = 'UNKNOWN'
