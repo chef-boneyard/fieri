@@ -27,6 +27,10 @@ class Server < Sinatra::Base
     CookbookWorker.perform_async(params)
   end
 
+  #
+  # Returns the status of the app, Redis and Sidekiq. Also returns the number of
+  # jobs in the +CookbookWorker+ queue.
+  #
   get '/status' do
     content_type :json
 
