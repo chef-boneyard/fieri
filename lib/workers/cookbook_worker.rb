@@ -5,16 +5,22 @@ class CookbookWorker
   include Sidekiq::Worker
 
   def perform(params)
-    cookbook = CookbookArtifact.new(params['cookbook_artifact_url'])
-    feedback, status = cookbook.criticize
+    begin
+      cookbook = CookbookArtifact.new(params['cookbook_artifact_url'])
+    rescue Zlib::GzipFile::Error => e
+      logger = Logger.new File.new(File.expand_path('./log/fieri.log'))
+      logger.error e
+    else
+      feedback, status = cookbook.criticize
 
-    RestClient.post(
-      ENV['RESULTS_ENDPOINT'],
-      fieri_key: ENV['AUTH_TOKEN'],
-      cookbook_name: params['cookbook_name'],
-      cookbook_version: params['cookbook_version'],
-      foodcritic_feedback: feedback,
-      foodcritic_failure: status
-    )
+      RestClient.post(
+        ENV['RESULTS_ENDPOINT'],
+        fieri_key: ENV['AUTH_TOKEN'],
+        cookbook_name: params['cookbook_name'],
+        cookbook_version: params['cookbook_version'],
+        foodcritic_feedback: feedback,
+        foodcritic_failure: status
+      )
+    end
   end
 end
