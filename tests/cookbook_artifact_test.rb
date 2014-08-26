@@ -17,7 +17,7 @@ describe CookbookArtifact do
     end
 
     it 'assigns #archive' do
-      assert artifact.archive.is_a?(File)
+      assert artifact.archive.is_a?(Tempfile)
     end
 
     it 'assigns #directory' do

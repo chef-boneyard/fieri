@@ -6,7 +6,6 @@ gem 'sinatra-contrib'
 gem 'sidekiq'
 gem 'rake'
 gem 'foodcritic'
-gem 'rest-client'
 gem 'dotenv'
 gem 'unicorn'
 

@@ -1,4 +1,3 @@
-require 'restclient'
 require 'sidekiq'
 
 class CookbookWorker
@@ -13,8 +12,8 @@ class CookbookWorker
     else
       feedback, status = cookbook.criticize
 
-      RestClient.post(
-        ENV['RESULTS_ENDPOINT'],
+      Net::HTTP.post_form(
+        URI.parse(ENV['RESULTS_ENDPOINT']),
         fieri_key: ENV['AUTH_TOKEN'],
         cookbook_name: params['cookbook_name'],
         cookbook_version: params['cookbook_version'],
