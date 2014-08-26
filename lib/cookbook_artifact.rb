@@ -79,7 +79,7 @@ class CookbookArtifact
         file.close
       end
 
-      ObjectSpace.define_finalizer(self, proc { FileUtils.remove_dir(root) })
+      ObjectSpace.define_finalizer(self, proc { FileUtils.remove_dir("/tmp/cook/#{job_id}") })
 
       return root
     end
