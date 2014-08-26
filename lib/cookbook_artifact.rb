@@ -6,16 +6,18 @@ class CookbookArtifact
   #
   # Accessors
   #
-  attr_accessor :url, :archive, :directory
+  attr_accessor :url, :archive, :directory, :job_id
 
   #
   # Initializes a +CookbookArtifact+ downloading and unarchiving the
   # artifact from the given url.
   #
   # @param [String] the url where the artifact lives
+  # @param [String] the id of the job in charge of processing the artifact
   #
-  def initialize(url)
+  def initialize(url, job_id)
     @url = url
+    @job_id = job_id
     @archive = download
     @directory = unarchive
   end
@@ -61,13 +63,13 @@ class CookbookArtifact
   #
   def unarchive
     Gem::Package::TarReader.new(Zlib::GzipReader.open(archive.path)) do |tar|
-      root = File.expand_path("./tmp/#{tar.first.header.name.split('/')[0]}")
+      root = File.expand_path("/tmp/cook/#{job_id}/#{tar.first.header.name.split('/')[0]}")
       tar.rewind
 
       tar.each do |entry|
         next unless entry.file?
 
-        destination_file = File.expand_path("./tmp/#{entry.header.name}")
+        destination_file = File.expand_path("/tmp/cook/#{job_id}/#{entry.header.name}")
         destination_dir = File.dirname(destination_file)
 
         FileUtils.mkdir_p destination_dir unless File.directory?(destination_dir)

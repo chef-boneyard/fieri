@@ -2,6 +2,9 @@ require_relative '../test_helper'
 
 describe CookbookWorker do
   before do
+    CookbookArtifact.any_instance.stubs(:criticize).
+      returns('FC023', true)
+
     stub_request(:get, 'http://example.com/apache.tar.gz').
       to_return(
         body: File.open(File.expand_path('./tests/fixtures/apache.tar.gz')),
@@ -21,6 +24,25 @@ describe CookbookWorker do
     assert_requested(:post, ENV['RESULTS_ENDPOINT'], times: 1) do |req|
       req.body =~ /foodcritic_failure=true/
       req.body =~ /FC023/
+    end
+  end
+
+  it 'creates a unique directory for each job to work within' do
+    Sidekiq::Testing.inline! do
+      job_id_1 = CookbookWorker.perform_async(
+        'cookbook_artifact_url' => 'http://example.com/apache.tar.gz',
+        'cookbook_name' => 'apache2',
+        'cookbook_version' => '1.2.0'
+      )
+
+      job_id_2 = CookbookWorker.perform_async(
+        'cookbook_artifact_url' => 'http://example.com/apache.tar.gz',
+        'cookbook_name' => 'apache2',
+        'cookbook_version' => '1.2.0'
+      )
+
+      assert Dir.exist?("/tmp/cook/#{job_id_1}")
+      assert Dir.exist?("/tmp/cook/#{job_id_2}")
     end
   end
 end
