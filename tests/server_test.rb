@@ -28,3 +28,35 @@ describe '/jobs' do
     end
   end
 end
+
+describe '/status' do
+  it 'should return a 200' do
+    get '/status'
+
+    assert_equal 200, last_response.status
+  end
+
+  it 'should return the status' do
+    post(
+      '/jobs',
+      cookbook_name: 'redis',
+      cookbook_version: '1.2.0',
+      cookbook_artifact_url: 'https://example.com/api/v1/cookbooks/redis/versions/1.2.0/download'
+    )
+
+    get '/status'
+
+    expected_response = {
+      'status' => 'ok',
+      'sidekiq' => {
+        'status' => 'REACHABLE',
+        'jobs' => 1
+      },
+      'redis' => {
+        'status' => 'REACHABLE'
+      }
+    }
+
+    assert_equal expected_response.to_json, last_response.body
+  end
+end

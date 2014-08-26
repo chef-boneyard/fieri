@@ -2,6 +2,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest/focus'
 require 'rack/test'
 require 'sidekiq/testing'
 require 'webmock/minitest'
