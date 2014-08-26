@@ -1,3 +1,4 @@
+require 'net/http'
 require 'sidekiq'
 
 class CookbookWorker
