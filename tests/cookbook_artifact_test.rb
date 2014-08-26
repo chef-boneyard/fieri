@@ -1,7 +1,7 @@
 require_relative './test_helper'
 
 describe CookbookArtifact do
-  let(:artifact) { CookbookArtifact.new('http://example.com/apache.tar.gz') }
+  let(:artifact) { CookbookArtifact.new('http://example.com/apache.tar.gz', 'somejobid') }
 
   before do
     stub_request(:get, 'http://example.com/apache.tar.gz').
@@ -21,7 +21,7 @@ describe CookbookArtifact do
     end
 
     it 'assigns #directory' do
-      assert_equal File.expand_path('./tmp/apache2'), artifact.directory
+      assert_equal File.expand_path('/tmp/cook/somejobid/apache2'), artifact.directory
     end
   end
 

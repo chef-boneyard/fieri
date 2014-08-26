@@ -6,7 +6,7 @@ class CookbookWorker
 
   def perform(params)
     begin
-      cookbook = CookbookArtifact.new(params['cookbook_artifact_url'])
+      cookbook = CookbookArtifact.new(params['cookbook_artifact_url'], jid)
     rescue Zlib::GzipFile::Error => e
       logger = Logger.new File.new(File.expand_path('./log/fieri.log'))
       logger.error e

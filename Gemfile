@@ -14,6 +14,7 @@ group :test do
   gem 'rack-test'
   gem 'minitest'
   gem 'minitest-focus'
+  gem 'mocha'
 end
 
 group :development, :test do
