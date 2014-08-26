@@ -1,4 +1,3 @@
-require 'restclient'
 require 'rubygems/package'
 require 'foodcritic'
 
@@ -42,7 +41,15 @@ class CookbookArtifact
   #
   def download
     file = Tempfile.new('archive')
-    file << RestClient.get(url)
+
+    Net::HTTP.get_response URI.parse(url) do |response|
+      response.read_body do |segment|
+        file.write(segment)
+      end
+    end
+
+    file.close
+    file
   end
 
   #
