@@ -33,4 +33,11 @@ describe CookbookArtifact do
       assert_equal true, status
     end
   end
+
+  describe '#clean' do
+    it 'deletes the artifacts unarchived directory' do
+      artifact.cleanup
+      assert !Dir.exist?("/tmp/cook/#{artifact.job_id}")
+    end
+  end
 end
