@@ -2,8 +2,18 @@ require_relative '../test_helper'
 
 describe CookbookWorker do
   before do
+    #
+    # Stubs criticize for speed!
+    #
     CookbookArtifact.any_instance.stubs(:criticize).
       returns('FC023', true)
+
+    #
+    # Stubs cleanup so we can test the creation of unique
+    # directories.
+    #
+    CookbookArtifact.any_instance.stubs(:cleanup).
+      returns(0)
 
     stub_request(:get, 'http://example.com/apache.tar.gz').
       to_return(

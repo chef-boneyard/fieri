@@ -35,6 +35,16 @@ class CookbookArtifact
     return result.to_s, result.failed?
   end
 
+  #
+  # Removes the unarchived directory returns nil if the directory
+  # doesn't exist.
+  #
+  # @return [Fixnum] the status code from the operation
+  #
+  def cleanup
+    FileUtils.remove_dir("/tmp/cook/#{job_id}", force: false)
+  end
+
   private
 
   #
@@ -78,8 +88,6 @@ class CookbookArtifact
         file << entry.read
         file.close
       end
-
-      ObjectSpace.define_finalizer(self, proc { FileUtils.remove_dir("/tmp/cook/#{job_id}") })
 
       return root
     end

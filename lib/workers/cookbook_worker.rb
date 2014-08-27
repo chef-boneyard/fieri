@@ -21,6 +21,8 @@ class CookbookWorker
         foodcritic_feedback: feedback,
         foodcritic_failure: status
       )
+
+      cookbook.cleanup
     end
   end
 end
