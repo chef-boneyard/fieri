@@ -6,6 +6,7 @@ require 'sidekiq/api'
 
 class Server < Sinatra::Base
   helpers Sinatra::Param
+  use Raven::Rack
 
   configure :development do
     register Sinatra::Reloader
