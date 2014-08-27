@@ -1,5 +1,4 @@
 require 'net/http'
-require 'sidekiq'
 
 class CookbookWorker
   include Sidekiq::Worker

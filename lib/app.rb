@@ -1,4 +1,5 @@
 require 'dotenv'
+require 'sidekiq'
 
 Dotenv.load
 
