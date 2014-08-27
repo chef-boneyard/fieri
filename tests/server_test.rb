@@ -1,14 +1,6 @@
 require_relative './test_helper'
 
 describe '/jobs' do
-  let(:valid_params) do
-    {
-      cookbook_name: 'redis',
-      cookbook_version: '1.2.0',
-      cookbook_artifact_url: 'https://example.com/api/v1/cookbooks/redis/versions/1.2.0/download'
-    }
-  end
-
   describe 'when a valid job is posted' do
     it 'should return a 200' do
       post '/jobs', valid_params
@@ -37,26 +29,20 @@ describe '/status' do
   end
 
   it 'should return the status' do
-    post(
-      '/jobs',
-      cookbook_name: 'redis',
-      cookbook_version: '1.2.0',
-      cookbook_artifact_url: 'https://example.com/api/v1/cookbooks/redis/versions/1.2.0/download'
-    )
+    Sidekiq::Testing.disable! do
+      post '/jobs', valid_params
+      get '/status'
 
-    get '/status'
-
-    expected_response = {
-      'status' => 'ok',
-      'sidekiq' => {
-        'status' => 'REACHABLE',
-        'jobs' => 1
-      },
-      'redis' => {
-        'status' => 'REACHABLE'
-      }
-    }
-
-    assert_equal expected_response.to_json, last_response.body
+      assert_match(/ok/, last_response.body)
+      assert_match(/\"queued_jobs\":1/, last_response.body)
+    end
   end
+end
+
+def valid_params
+  {
+    cookbook_name: 'redis',
+    cookbook_version: '1.2.0',
+    cookbook_artifact_url: 'http://example.com/apache.tar.gz'
+  }
 end
