@@ -6,7 +6,10 @@ require 'sidekiq/api'
 
 class Server < Sinatra::Base
   helpers Sinatra::Param
-  use Raven::Rack
+
+  if ENV['SENTRY_URL']
+    use Raven::Rack
+  end
 
   configure :development do
     register Sinatra::Reloader
