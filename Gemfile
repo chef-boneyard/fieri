@@ -9,6 +9,8 @@ gem 'foodcritic'
 gem 'dotenv'
 gem 'unicorn'
 
+gem 'sentry-raven', '~> 0.8.0', require: false
+
 group :test do
   gem 'webmock'
   gem 'rack-test'
