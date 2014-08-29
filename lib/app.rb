@@ -1,7 +1,10 @@
 require 'dotenv'
 require 'sidekiq'
 
-Dotenv.load
+Dotenv.load(
+ File.expand_path("../../.env.#{ENV['RACK_ENV']}", __FILE__),
+ File.expand_path('../../.env',  __FILE__)
+)
 
 if ENV['SENTRY_URL']
   require 'raven'
