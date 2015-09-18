@@ -1,13 +1,13 @@
-require 'sinatra/reloader'
-require 'sinatra/base'
-require 'sinatra/param'
-require 'json'
-require 'sidekiq/api'
+require "sinatra/reloader"
+require "sinatra/base"
+require "sinatra/param"
+require "json"
+require "sidekiq/api"
 
 class Server < Sinatra::Base
   helpers Sinatra::Param
 
-  if ENV['SENTRY_URL']
+  if ENV["SENTRY_URL"]
     use Raven::Rack
   end
 
@@ -15,18 +15,18 @@ class Server < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  REACHABLE = 'REACHABLE'
-  UNKNOWN = 'UNKNOWN'
-  UNREACHABLE = 'UNREACHABLE'
+  REACHABLE = "REACHABLE"
+  UNKNOWN = "UNKNOWN"
+  UNREACHABLE = "UNREACHABLE"
 
   #
   # Expects to be posted cookbook params that are used to kick off
   # a +CookbookWorker+ which does all the real work.
   #
-  post '/jobs' do
-    param :cookbook_name, String, required: true
-    param :cookbook_version, String, required: true
-    param :cookbook_artifact_url, String, required: true
+  post "/jobs" do
+    param :cookbook_name, String, :required => true
+    param :cookbook_version, String, :required => true
+    param :cookbook_artifact_url, String, :required => true
 
     CookbookWorker.perform_async(params)
   end
@@ -35,11 +35,11 @@ class Server < Sinatra::Base
   # Returns the status of the app, Redis and Sidekiq. Also returns the number of
   # jobs in the +CookbookWorker+ queue.
   #
-  get '/status' do
+  get "/status" do
     content_type :json
 
-    redis_health = { status: REACHABLE }
-    sidekiq_health = { status: REACHABLE }
+    redis_health = { :status => REACHABLE }
+    sidekiq_health = { :status => REACHABLE }
 
     begin
       Sidekiq::Queue.new.tap do |queue|
@@ -56,9 +56,9 @@ class Server < Sinatra::Base
         sidekiq_health.store(:total_failed, stats.failed)
       end
 
-      redis_info = Sidekiq.redis { |client| client.info }
+      redis_info = Sidekiq.redis(&:info)
 
-      %w(uptime_in_seconds connected_clients used_memory used_memory_peak).each do |key|
+      %w[uptime_in_seconds connected_clients used_memory used_memory_peak].each do |key|
         redis_health.store(key, redis_info.fetch(key, -1).to_i)
       end
     rescue Redis::TimeoutError
@@ -69,17 +69,17 @@ class Server < Sinatra::Base
       redis_health.store(:status, UNREACHABLE)
     end
 
-    if redis_health.fetch(:status) == 'REACHABLE' &&
-         sidekiq_health.fetch(:status) == 'REACHABLE'
-      status = 'ok'
+    if redis_health.fetch(:status) == "REACHABLE" &&
+        sidekiq_health.fetch(:status) == "REACHABLE"
+      status = "ok"
     else
-      status = 'not ok'
+      status = "not ok"
     end
 
     {
-      'status' => status,
-      'sidekiq' => sidekiq_health,
-      'redis' => redis_health
+      "status" => status,
+      "sidekiq" => sidekiq_health,
+      "redis" => redis_health
     }.to_json
   end
 end

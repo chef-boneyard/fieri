@@ -1,6 +1,6 @@
-require 'net/http'
-require 'rubygems/package'
-require 'foodcritic'
+require "net/http"
+require "rubygems/package"
+require "foodcritic"
 
 class CookbookArtifact
   #
@@ -29,8 +29,8 @@ class CookbookArtifact
   # @return [String] the would be command line out from FoodCritic
   #
   def criticize
-    cmd = FoodCritic::CommandLine.new([directory, "-f #{ENV['FOODCRITIC_FAIL_TAGS']}"])
-    result, _status = FoodCritic::Linter.check(cmd)
+    cmd = FoodCritic::CommandLine.new([directory, "-f #{ENV["FOODCRITIC_FAIL_TAGS"]}"])
+    result, _status = FoodCritic::Linter.run(cmd)
 
     return result.to_s, result.failed?
   end
@@ -42,7 +42,7 @@ class CookbookArtifact
   # @return [Fixnum] the status code from the operation
   #
   def cleanup
-    FileUtils.remove_dir("/tmp/cook/#{job_id}", force: false)
+    FileUtils.remove_dir("/tmp/cook/#{job_id}", :force => false)
   end
 
   private
@@ -53,7 +53,7 @@ class CookbookArtifact
   # @return [Tempfile] the artifact
   #
   def download
-    file = Tempfile.new('archive')
+    file = Tempfile.new("archive")
 
     Net::HTTP.get_response URI.parse(url) do |response|
       response.read_body do |segment|
@@ -73,7 +73,7 @@ class CookbookArtifact
   #
   def unarchive
     Gem::Package::TarReader.new(Zlib::GzipReader.open(archive.path)) do |tar|
-      root = File.expand_path("/tmp/cook/#{job_id}/#{tar.first.header.name.split('/')[0]}")
+      root = File.expand_path("/tmp/cook/#{job_id}/#{tar.first.header.name.split("/")[0]}")
       tar.rewind
 
       tar.each do |entry|
@@ -84,7 +84,7 @@ class CookbookArtifact
 
         FileUtils.mkdir_p destination_dir unless File.directory?(destination_dir)
 
-        file = File.open(destination_file, 'w+')
+        file = File.open(destination_file, "w+")
         file << entry.read
         file.close
       end

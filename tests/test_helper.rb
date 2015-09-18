@@ -1,15 +1,15 @@
-ENV['RACK_ENV'] = 'test'
+ENV["RACK_ENV"] = "test"
 
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'minitest/focus'
-require 'mocha/mini_test'
-require 'rack/test'
-require 'sidekiq/testing'
-require 'webmock/minitest'
-require 'byebug'
+require "minitest/autorun"
+require "minitest/pride"
+require "minitest/focus"
+require "mocha/mini_test"
+require "rack/test"
+require "sidekiq/testing"
+require "webmock/minitest"
+require "byebug"
 
-require_relative '../lib/app'
+require_relative "../lib/app"
 
 module MiniTest
   class Spec
