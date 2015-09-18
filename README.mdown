@@ -1,6 +1,6 @@
 # Fieri
 
-[![Build Status](https://travis-ci.org/opscode/fieri.svg?branch=master)](https://travis-ci.org/opscode/fieri)
+[![Build Status](https://travis-ci.org/chef/fieri.svg?branch=master)](https://travis-ci.org/chef/fieri)
 
 A complimentary service to Supermarket that provides insights into cookbook quality.
 
