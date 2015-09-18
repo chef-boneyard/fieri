@@ -1,11 +1,12 @@
-require 'rake/testtask'
-require 'rubocop/rake_task'
+require "rake/testtask"
+require "finstyle"
+require "rubocop/rake_task"
 
-task default: [:test, :rubocop]
+task :default => [:test, :rubocop]
 
 task :test do
   Rake::TestTask.new do |t|
-    t.pattern = 'tests/**/*_test.rb'
+    t.pattern = "tests/**/*_test.rb"
   end
 end
 
