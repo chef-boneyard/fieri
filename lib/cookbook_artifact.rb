@@ -30,7 +30,7 @@ class CookbookArtifact
   #
   def criticize
     cmd = FoodCritic::CommandLine.new([directory, "-f #{ENV['FOODCRITIC_FAIL_TAGS']}"])
-    result, _status = FoodCritic::Linter.check(cmd)
+    result, _status = FoodCritic::Linter.run(cmd)
 
     return result.to_s, result.failed?
   end
