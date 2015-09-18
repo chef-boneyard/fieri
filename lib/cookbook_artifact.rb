@@ -29,7 +29,11 @@ class CookbookArtifact
   # @return [String] the would be command line out from FoodCritic
   #
   def criticize
-    cmd = FoodCritic::CommandLine.new([directory, "-f #{ENV["FOODCRITIC_FAIL_TAGS"]}"])
+    args = [directory, "-f #{ENV["FOODCRITIC_FAIL_TAGS"]}"]
+    ENV["FOODCRITIC_TAGS"].split.each do |tag|
+      args.push("-t #{tag}")
+    end if ENV["FOODCRITIC_TAGS"]
+    cmd = FoodCritic::CommandLine.new(args)
     result, _status = FoodCritic::Linter.run(cmd)
 
     return result.to_s, result.failed?
